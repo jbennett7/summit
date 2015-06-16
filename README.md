@@ -1,6 +1,8 @@
 # summit
 Summit Presentation
+
 Joseph Bennett - Consultant
+
 Ian Tewksbury  - Senior Consultant
 
 This repository holds all of the CloudForms code for the "Red Hat 
