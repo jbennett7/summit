@@ -1,0 +1,94 @@
+---
+object_type: class
+version: 1.0
+object:
+  attributes:
+    description: Service Provision State Machine
+    display_name: 
+    name: ServiceProvision_Template
+    type: 
+    inherits: 
+    visibility: 
+    owner: 
+  schema:
+  - field:
+      aetype: state
+      name: UpdateService
+      display_name: 
+      datatype: string
+      priority: 1
+      owner: 
+      default_value: "/Service/Provisioning/StateMachines/Methods/UpdateService"
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: update_serviceprovision_status(status => 'Updating Service')
+      on_exit: update_serviceprovision_status(status => 'Service Update Complete')
+      on_error: update_serviceprovision_status(status => 'Error Updating Service')
+      max_retries: '100'
+      max_time: 
+  - field:
+      aetype: state
+      name: CreateProvisionRequest
+      display_name: 
+      datatype: string
+      priority: 2
+      owner: 
+      default_value: "/Service/Provisioning/StateMachines/Methods/CreateProvisionRequest"
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: update_serviceprovision_status(status => 'Creating Provision Request')
+      on_exit: update_serviceprovision_status(status => 'Provision Request Created')
+      on_error: update_serviceprovision_status(status => 'Error Creating Provision
+        Request')
+      max_retries: '100'
+      max_time: 
+  - field:
+      aetype: state
+      name: EmailOwner
+      display_name: 
+      datatype: string
+      priority: 3
+      owner: 
+      default_value: "/Service/Provisioning/Email/ServiceProvision_complete?event=service_provisioned"
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: update_serviceprovision_status(status => 'Emailing Owner')
+      on_exit: update_serviceprovision_status(status => 'Emailed Owner')
+      on_error: update_serviceprovision_status(status => 'Error Emailing Owner')
+      max_retries: '100'
+      max_time: 
+  - field:
+      aetype: state
+      name: Finished
+      display_name: 
+      datatype: string
+      priority: 4
+      owner: 
+      default_value: "/System/CommonMethods/StateMachineMethods/service_provision_finished"
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: '100'
+      max_time: 
