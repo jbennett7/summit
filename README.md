@@ -18,3 +18,5 @@ the rake command, if automate.zip is in ~ then in change to directory
   bin/rake evm:automate:restore BACKUP_ZIP_FILE=~/automate.zip
 
 This will import the domains and replace all other domains.
+
+A note on the methods: In later versions of CloudForms this will be fixed, but on the current version, the rest-client gem had to use the the line as seen on line one on all of the Satellite 6 integration scripts.
