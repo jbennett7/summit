@@ -4,9 +4,9 @@ version: 1.0
 object:
   attributes:
     display_name: 
-    name: DeleteFromForeman
+    name: RemoveAllVMs
     inherits: 
     description: 
   fields:
   - execute:
-      value: delete_from_foreman
+      value: remove_all_vms

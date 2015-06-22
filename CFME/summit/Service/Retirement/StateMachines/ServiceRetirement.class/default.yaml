@@ -4,9 +4,7 @@ version: 1.0
 object:
   attributes:
     display_name: 
-    name: ProvisionService
+    name: Default
     inherits: 
     description: 
-  fields:
-  - UpdateSmartClassParameters:
-      value: "#"
+  fields: []

@@ -3,7 +3,7 @@ object_type: method
 version: 1.0
 object:
   attributes:
-    name: register_in_foreman
+    name: create_host
     display_name: 
     description: 
     scope: instance

@@ -8,16 +8,6 @@ require 'base64'
 foreman_host      = $evm.object['foreman_host']
 foreman_user      = $evm.object['foreman_user']
 foreman_password  = $evm.object.decrypt('foreman_password')
-organization_name = $evm.object['organization_name']
-location_name     = $evm.object['location_name']
-
-prov = $evm.root['miq_provision']
-
-$evm.log("info","Provision Request: #{prov.inspect}")
-hostgroup_name = prov.options[:ws_values][:hostgroup]
-vm             = prov.vm
-$evm.log("info","Hostgroup name: #{hostgroup_name}")
-$evm.log("info","VM: #{vm.inspect}")
 
 @base_url = "https://#{foreman_host}/api/v2"
 @headers  = {
@@ -44,8 +34,17 @@ def query_id (type,field,content)
   return rest_result['results'][0]['id'].to_s
 end
 
+prov = $evm.root['miq_provision']
+vm             = prov.vm
+service_name   = prov.options[:ws_values][:service_name]
+
+hostgroup_name = prov.options[:ws_values][:hostgroup]
 hostgroup_id    = query_id("hostgroups","name",hostgroup_name)
+
+location_name     = $evm.object['location_name']
 location_id     = query_id("locations","name",location_name)
+
+organization_name = $evm.object['organization_name']
 organization_id = query_id("organizations","name",organization_name)
 
 hostinfo = JSON.dump({"host"=> {
@@ -67,6 +66,10 @@ $evm.log("info", "Host id: #{hostid}")
 
 $evm.log("info", "Storing Foreman host ID of new VM: #{hostid}")
 prov.set_option(:hostid,hostid)
+
+value  = {'name' => 'service_name', 'value' => service_name}
+result = invoke_foreman_api(:post, "hosts/#{hostid}/parameters", JSON.dump(value))
+$evm.log("info", "Return #{result}")
 
 $evm.log("info", "Powering on VM")
 vm.start

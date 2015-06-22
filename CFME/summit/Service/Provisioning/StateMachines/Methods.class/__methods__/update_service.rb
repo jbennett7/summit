@@ -18,14 +18,17 @@ def service_setup_two(service_name, service)
     $evm.log("info", "Creating Parent Service #{service_name}")
     parent_service = $evm.vmdb('service').create(:name => service_name)
     parent_service.display = true
+#   parent_service.add_to_service(service)
   end
   service.parent_service = parent_service
 end
+
 
 task = $evm.root['service_template_provision_task']
 service = task.destination
 dialog_options = task.options[:dialog]
 user = $evm.root['user']
 
+service.name = "#{dialog_options['dialog_hostgroup'].downcase}"
 service_name = "#{dialog_options['dialog_service_name'].downcase}"
 service_setup_two(service_name, service)

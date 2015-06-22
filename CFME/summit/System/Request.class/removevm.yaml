@@ -4,9 +4,9 @@ version: 1.0
 object:
   attributes:
     display_name: 
-    name: ProvisionService
+    name: RemoveVM
     inherits: 
     description: 
   fields:
-  - UpdateSmartClassParameters:
-      value: "#"
+  - rel1:
+      value: "/Service/Retirement/StateMachines/Methods/RemoveVM"

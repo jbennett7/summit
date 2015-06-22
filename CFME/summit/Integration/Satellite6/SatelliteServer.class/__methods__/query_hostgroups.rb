@@ -9,8 +9,6 @@ require 'base64'
 foreman_host      = $evm.object['foreman_host']
 foreman_user      = $evm.object['foreman_user']
 foreman_password  = $evm.object.decrypt('foreman_password')
-organization_name = $evm.object['organization_name']
-location_name     = $evm.object['location_name']
 
 @base_url = "https://#{foreman_host}/api/v2"
 @headers  = {
@@ -37,7 +35,6 @@ rest_result['results'].each do |result|
   hostgroups << result['title']
 end
 
-# CFME does not properly handle sorted dynamic fields
 list_values = {
   'sort_by'    => :none,
   'data_type'  => :string,

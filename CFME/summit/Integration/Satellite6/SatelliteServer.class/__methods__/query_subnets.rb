@@ -1,6 +1,6 @@
 $LOAD_PATH.unshift '/opt/rh/cfme-gemset/bundler/gems/rest-client-08480eb86aef/lib'
-require 'set'
 require 'uri'
+require 'set'
 require 'rest-client'
 require 'json'
 require 'openssl'
@@ -9,8 +9,6 @@ require 'base64'
 foreman_host      = $evm.object['foreman_host']
 foreman_user      = $evm.object['foreman_user']
 foreman_password  = $evm.object.decrypt('foreman_password')
-organization_name = $evm.object['organization_name']
-location_name     = $evm.object['location_name']
 
 @base_url = "https://#{foreman_host}/api/v2"
 @headers  = {
@@ -29,12 +27,12 @@ def invoke_foreman_api(method, cmd, payload=nil)
   }))
 end
 
-rest_result = invoke_foreman_api(:get, "domains")
+rest_result = invoke_foreman_api(:get, "subnets")
 $evm.log("info", "Rest result: #{rest_result}")
 
-domains = Set.new
+subnets = Set.new
 rest_result['results'].each do |result|
-  domains << result['name']
+  subnets << result['name']
 end
 
 # CFME does not properly handle sorted dynamic fields
@@ -42,7 +40,7 @@ list_values = {
   'sort_by'    => :none,
   'data_type'  => :string,
   'required'   => false,
-  'values'     => [[nil, nil]] + domains.collect { |x| x.reverse }.sort
+  'values'     => [[nil, nil]] + subnets.collect { |x| x.reverse }.sort
 }
  
 $evm.log('info', "Hostgroups drop-down: [#{list_values}]")

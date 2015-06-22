@@ -4,9 +4,9 @@ version: 1.0
 object:
   attributes:
     display_name: 
-    name: RegisterInForeman
+    name: UpdateSmartClassParameters
     inherits: 
     description: 
   fields:
   - execute:
-      value: register_in_foreman
+      value: update_smart_class_parameters

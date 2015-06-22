@@ -1,5 +1,4 @@
 $LOAD_PATH.unshift '/opt/rh/cfme-gemset/bundler/gems/rest-client-08480eb86aef/lib'
-require 'set'
 require 'uri'
 require 'rest-client'
 require 'json'
@@ -9,8 +8,6 @@ require 'base64'
 foreman_host      = $evm.object['foreman_host']
 foreman_user      = $evm.object['foreman_user']
 foreman_password  = $evm.object.decrypt('foreman_password')
-organization_name = $evm.object['organization_name']
-location_name     = $evm.object['location_name']
 
 @base_url = "https://#{foreman_host}/api/v2"
 @headers  = {
@@ -29,23 +26,16 @@ def invoke_foreman_api(method, cmd, payload=nil)
   }))
 end
 
-rest_result = invoke_foreman_api(:get, "subnets")
-$evm.log("info", "Rest result: #{rest_result}")
+vm    = $evm.root['vm']
+vmname = vm.name
+$evm.log("info", "Deleting VM #{vm.name} with Hostname #{vmname} from Foreman.")
 
-subnets = Set.new
-rest_result['results'].each do |result|
-  subnets << result['name']
+if vm.platform != "linux" then
+  $evm.log("info","This is not a Linux VM, skipping deletion of foreman records")
+  exit MIQ_OK
 end
 
-# CFME does not properly handle sorted dynamic fields
-list_values = {
-  'sort_by'    => :none,
-  'data_type'  => :string,
-  'required'   => false,
-  'values'     => [[nil, nil]] + subnets.collect { |x| x.reverse }.sort
-}
- 
-$evm.log('info', "Hostgroups drop-down: [#{list_values}]")
-list_values.each { |k,v| $evm.object[k] = v }
+rest_result = invoke_foreman_api(:delete, "hosts/#{vmname}")
+$evm.log("info", "Rest result: #{rest_result}")
 
 exit MIQ_OK

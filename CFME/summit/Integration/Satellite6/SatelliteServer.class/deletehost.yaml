@@ -4,9 +4,9 @@ version: 1.0
 object:
   attributes:
     display_name: 
-    name: ProvisionService
+    name: DeleteHost
     inherits: 
     description: 
   fields:
-  - UpdateSmartClassParameters:
-      value: "#"
+  - execute:
+      value: delete_host

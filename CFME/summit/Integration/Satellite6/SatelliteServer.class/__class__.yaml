@@ -5,7 +5,7 @@ object:
   attributes:
     description: 
     display_name: 
-    name: Foreman
+    name: SatelliteServer
     type: 
     inherits: 
     visibility: 
