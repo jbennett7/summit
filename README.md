@@ -23,6 +23,7 @@ To Setup the services you need to setup a new catalog item in CloudForms Service
 
 To Set up the "Add VM" and "Remove VM" buttons, after creating the service, you will need to go to the service in the Services->Catalogs Tab, Catalog Items acordian and select the service.  In the configuration menu click add a new button, in the Object Details section you need to set it up as a Request, and the request name as "AddVM" or "RemoveVM".
 
+A not on the template the template name is hardcoded for this simulation.  You could have just as easily tagged the templates.  The template is specified in /summit/Service/Provisioning/StateMachines/Methods/create_provision_request method on the line:  template = $evm.vmdb('miq_template').find_by_name('rhel...'),  Here you could have also use the the 'Blank' template and specified the size of the disk to use as well.
 
 
 A note on the methods: In later versions of CloudForms this will be fixed, but on the current version, the rest-client gem path had to be specified using the following line:
